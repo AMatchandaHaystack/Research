@@ -1,0 +1,64 @@
+Code:
+
+int
+main(int argc, char **argv) {
+
+    int sock;
+    struct sockaddr_un addr;
+    u_char buf[4096];
+    size_t buf_len = sizeof(buf);
+    int rc = 0, pktsize = 0;
+
+    fd_set read_set;
+
+    DEBUG("----------\nstarting up");
+
+    /* Open a connection to the UNIX domain socket or fail */
+
+    addr.sun_family = AF_UNIX;
+    if (argc > 1) {
+        strcpy(addr.sun_path, argv[1]); //old school stdin -> strcpy
+    } else {
+        strcpy(addr.sun_path, DEFAULT_SOCK_PATH);
+    }
+
+
+
+root@fuzzy:~/net-snmp/apps# ./asantarg $(cat As)
+=================================================================
+==20334==ERROR: AddressSanitizer: strcpy-param-overlap: memory ranges [0x7fff8c377a72,0x7fff8c387ca6) and [0x7fff8c37a581, 0x7fff8c38a7b5) overlap
+    #0 0x7f1e50c9c299  (/usr/lib/x86_64-linux-gnu/libasan.so.4+0x66299)
+    #1 0x55c0c5e303aa in main (/root/net-snmp/apps/asantarg+0x13aa)
+    #2 0x7f1e50866b96 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x21b96)
+    #3 0x55c0c5e30119 in _start (/root/net-snmp/apps/asantarg+0x1119)
+
+Address 0x7fff8c377a72 is located in stack of thread T0 at offset 386 in frame
+    #0 0x55c0c5e30209 in main (/root/net-snmp/apps/asantarg+0x1209)
+
+  This frame has 8 object(s):
+    [32, 36) 'sock'
+    [96, 100) 'one'
+    [160, 176) 'iov'
+    [224, 280) 'm'
+    [320, 352) 'cmsg'
+    [384, 494) 'addr' <== Memory access at offset 386 partially overflows this variable
+    [544, 672) 'read_set' <== Memory access at offset 386 partially underflows this variable
+    [704, 4800) 'buf' <== Memory access at offset 386 partially underflows this variable
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism or swapcontext
+      (longjmp and C++ exceptions *are* supported)
+Address 0x7fff8c37a581 is located in stack of thread T0 at offset 11409 in frame
+    #0 0x55c0c5e30209 in main (/root/net-snmp/apps/asantarg+0x1209)
+
+  This frame has 8 object(s):
+    [32, 36) 'sock'
+    [96, 100) 'one'
+    [160, 176) 'iov'
+    [224, 280) 'm'
+    [320, 352) 'cmsg'
+    [384, 494) 'addr'
+    [544, 672) 'read_set'
+    [704, 4800) 'buf' <== Memory access at offset 11409 overflows this variable
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism or swapcontext
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: strcpy-param-overlap (/usr/lib/x86_64-linux-gnu/libasan.so.4+0x66299) 
+==20334==ABORTING
