@@ -26,7 +26,9 @@ Starting Nmap 7.70 ( https://nmap.org ) at 2019-04-19 17:06 MDT
 ==120641==    by 0x4EAFA34: lua_resume (in /usr/lib/x86_64-linux-gnu/liblua5.3.so.0.0.0)
 ==120641==    by 0x4EC1C66: ??? (in /usr/lib/x86_64-linux-gnu/liblua5.3.so.0.0.0)
 
+
+Reference:
 o [NSE][GH#1077] Fix a crash caused by a double-free of libssh2 session data
   when running SSH NSE scripts against non-SSH services. [Seth Randall]
   
-  Originally reported here: https://github.com/nmap/nmap/issues/1077 and recreated accidentally during a live penetration test and reported.
+Originally reported here: https://github.com/nmap/nmap/issues/1077 and recreated independently during live port scanning with a POC developed and reported referencing Seth's original issue ID.
