@@ -1,0 +1,32 @@
+valgrind nmap --script=ssh-brute 127.0.0.1 -p 22 
+Where port 22 is simply echoing “AAAA”.
+
+Starting Nmap 7.70 ( https://nmap.org ) at 2019-04-19 17:06 MDT
+<HUGE SNIP>
+==120641== Invalid free() / delete / delete[] / realloc()
+==120641==    at 0x48369AB: free (vg_replace_malloc.c:530)
+==120641==    by 0x48EE487: libssh2_session_free (in /usr/lib/x86_64-linux-gnu/libssh2.so.1.0.1)
+==120641==    by 0x1D6BFC: ??? (in /usr/bin/nmap)
+==120641==    by 0x4EAF584: ??? (in /usr/lib/x86_64-linux-gnu/liblua5.3.so.0.0.0)
+==120641==    by 0x4EAF962: ??? (in /usr/lib/x86_64-linux-gnu/liblua5.3.so.0.0.0)
+==120641==    by 0x4EAF9C0: ??? (in /usr/lib/x86_64-linux-gnu/liblua5.3.so.0.0.0)
+==120641==    by 0x4EAED81: ??? (in /usr/lib/x86_64-linux-gnu/liblua5.3.so.0.0.0)
+==120641==    by 0x4EAFC4A: ??? (in /usr/lib/x86_64-linux-gnu/liblua5.3.so.0.0.0)
+==120641==    by 0x4EB0BD1: ??? (in /usr/lib/x86_64-linux-gnu/liblua5.3.so.0.0.0)
+==120641==    by 0x4EB0C81: ??? (in /usr/lib/x86_64-linux-gnu/liblua5.3.so.0.0.0)
+==120641==    by 0x4EB21A4: ??? (in /usr/lib/x86_64-linux-gnu/liblua5.3.so.0.0.0)
+==120641==    by 0x4EB2737: ??? (in /usr/lib/x86_64-linux-gnu/liblua5.3.so.0.0.0)
+==120641==  Address 0x941b370 is 0 bytes inside a block of size 54,496 free'd
+==120641==    at 0x48369AB: free (vg_replace_malloc.c:530)
+==120641==    by 0x48EE487: libssh2_session_free (in /usr/lib/x86_64-linux-gnu/libssh2.so.1.0.1)
+==120641==    by 0x1D678E: ??? (in /usr/bin/nmap)
+==120641==    by 0x4EAF776: ??? (in /usr/lib/x86_64-linux-gnu/liblua5.3.so.0.0.0)
+==120641==    by 0x4EAF7FB: ??? (in /usr/lib/x86_64-linux-gnu/liblua5.3.so.0.0.0)
+==120641==    by 0x4EAED81: ??? (in /usr/lib/x86_64-linux-gnu/liblua5.3.so.0.0.0)
+==120641==    by 0x4EAFA34: lua_resume (in /usr/lib/x86_64-linux-gnu/liblua5.3.so.0.0.0)
+==120641==    by 0x4EC1C66: ??? (in /usr/lib/x86_64-linux-gnu/liblua5.3.so.0.0.0)
+
+o [NSE][GH#1077] Fix a crash caused by a double-free of libssh2 session data
+  when running SSH NSE scripts against non-SSH services. [Seth Randall]
+  
+  Originally reported here: https://github.com/nmap/nmap/issues/1077 and recreated accidentally during a live penetration test and reported.
