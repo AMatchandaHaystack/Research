@@ -1,0 +1,42 @@
+Web Related:
+SecLists
+fierce
+ffuf
+sublist3r
+nikto*
+
+Bin Related:
+Radamsa
+GSANs
+Honggfuzz
+VLP
+Valgrind
+AFL
+flawfinder
+cppcheck
+binwalk
+ghidra
+ida
+gdb
+gdb-peda
+cat /dev/urandom
+windbg
+roptool
+ropgadget
+immunity*
+sourced-corpus
+
+Net Related:
+nmap
+NSEs
+CME
+mimi$(dogz)
+medusa
+hydra
+onesixtyone
+putty
+ssh
+bettercap
+responder
+msf
+
