@@ -40,3 +40,7 @@ bettercap
 responder
 msf
 
+files:
+lsof
+pstree
+strace
